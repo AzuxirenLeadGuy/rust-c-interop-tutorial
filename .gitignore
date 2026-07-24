@@ -1,0 +1,10 @@
+build/
+.helix/
+.cache/
+.vscode/
+target/
+Cargo.lock
+*.draft.md
+meson-build/
+cmake-build/
+out/
