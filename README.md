@@ -9,12 +9,14 @@ This repository has the following directory tree:
 
 ```
    - .
-  87 ├── .gitignore
+  92 ├── .gitignore
+7.4k ├── README.md
   85 ├── Cargo.toml
-2.1k ├── README.md
+   - ├── .cargo
+  47 │   └── config.toml
    - ├── c-lib-example
-1.0k │   ├── CMakeLists.txt
- 624 │   ├── meson.build
+ 617 │   ├── meson.build
+1.2k │   ├── CMakeLists.txt
    - │   ├── include
 1.2k │   │   └── sample_clib.h
    - │   ├── src
@@ -22,11 +24,10 @@ This repository has the following directory tree:
    - │   └── test
 1.0k │       └── test.c
    - ├── examples
-  51 │   ├── shared_main.rs
- 149 │   └── static_main.rs
+ 288 │   └── simple.rs
    - └── src
 9.7k     ├── bindgen_output.rs
- 239     └── lib.rs
+ 174     └── lib.rs
 
 ```
 
@@ -35,9 +36,9 @@ This repository has the following directory tree:
 The following example covers a C library in the directory `c-lib-example` as shown
 
 ```
-   - c-lib-example
-1.0k ├── CMakeLists.txt
- 624 ├── meson.build
+   - ./c-lib-example
+ 617 ├── meson.build
+1.2k ├── CMakeLists.txt
    - ├── include
 1.2k │   └── sample_clib.h
    - ├── src
@@ -50,7 +51,7 @@ Here, the source files include the header file `include/sample_clib.h`, the impl
 
 Since we are going to link pre-built library to rust, we should know how to compile it. There are a number of ways to go about this.
 
-### Manually building with C compiler
+### Option 1: Manually building with C compiler
 
 There are no shortages of C compilers: [GNU GCC](https://gcc.gnu.org/), [Clang](https://clang.llvm.org/), [TCC](https://bellard.org/tcc/), [MingW](https://www.mingw-w64.org/), [MSVC](https://visualstudio.microsoft.com/vs/features/cplusplus/), and so on. Although this document shows usage with GCC, the flags are quite similar across all the compilers.
 
@@ -93,11 +94,11 @@ gcc -shared ./out/lib/sample_clib.o -o ./out/lib/libsample_clib.so
 ```
 
 
-### Using build tools
+### Option 2: Using build tools
 
 It is easy to see that these commands can get troublesome to memorise and use. Furthermore, the standards/protocols change with compilers(obviously), but also with operating systems. To address this issue, modern build tools for C and C++ exist to offer cross-platform and cross-compiler build tools. This repository showcases two popular build tools, namely CMake and Meson. These build tools are [Meta-Build tools](https://en.wikipedia.org/wiki/List_of_build_automation_software#Meta_build), which means that they first create intermediate files and folders to prepare configuration of the project (we will refer to it as the "build directory"), and then build the project. 
 
-#### CMake
+#### Option 2.A: CMake
 
 CMake is a popular build tool for building C and C++ projects. To prepare the build directory, the command is as follows
 
@@ -124,7 +125,7 @@ cmake --install ./cmake-build --config RELEASE --prefix ./out
 ```
 
 
-#### Meson
+#### Option 2.B: Meson
 
 Similar to CMake, we begin with first creating a build directory. We can do that in Meson using the following
 
@@ -160,7 +161,18 @@ mv ./meson-build/out/usr/local ./out
 
 ## Link the C library to the rust program.
 
-We can use the link attribute to mark the unsafe extern functions to be linked with the given library (in this example, `sample_clib`).
+Whichever option you selected in the previous step, you should have an `out` directory as shown:
+
+```
+./out
+├── include
+│   └── sample_clib.h
+└── lib
+    ├── libsample_clib.a
+    └── libsample_clib.so
+```
+
+We can now use the link attribute to mark the unsafe extern functions to be linked with the given library (in this example, `sample_clib`).
 
 ```rust
 #[link(name = "sample_clib", kind = "static")]
@@ -202,3 +214,23 @@ $ RUSTFLAGS="-L native=./out/lib" cargo run --example simple
 Obtained value : 1
 sum_of_least_two(10, 20, 40) = 30
 ```
+
+And that's it! We have a pure rust project with no dependancies, complexity or "magic" solutions.
+
+That being said, you might see that the code intellisense, i.e the LSP(rust-analyzer) seems to stop working with this unsafe code. This is due to the fact that the linking happens in the shell, but rust-analyzer cannot use these flags and therefore cannot offer suggestions with the code. Thus, it is better to pass the `RUSTFLAGS` environment variables in such a way that `rust-analyzer` has access to it. The best way to do this is to create a `.cargo/config.toml` and add the flag as shown
+
+```toml
+[build]
+rustflags = ["-L", "native=./out/lib"]
+```
+
+And now, we can simply do
+
+```
+cargo build
+
+cargo run --example simple
+
+```
+
+And it works as expected.
