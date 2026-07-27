@@ -1,0 +1,15 @@
+[High-Level-Summary](./overview.md)
+# Fundamental Concepts
+- [Native libraries](./1-1--native_libraries.md)
+- [Making a library in C](./1-2--making_a_c_library.md)
+    - [Static Library](./1-3-1--static_library.md)
+    - [Dynamic Library](./1-3-2--dynamic_library.md)
+- [Consuming a C library](./1-4--consuming-c-libraries.md)
+    - [Consuming a static C library with C](./1-4-1--static_libraries.md)
+    - [Consuming a dynamic C library with C](./1-4-2--dynamic_libraries.md)
+# Rust interop with C
+- [The 'Bad' way](./2-1--bad-way.md)
+- [How to improve](./2-2--how-to-improve.md)
+- [Linking a static C library with Rust](./2-3--linking_static.md)
+- [Linking a dynamic C library with Rust](./2-4--linking-dynamic.md)
+- [Final Thoughts](./2-5--final_thoughts.md)
