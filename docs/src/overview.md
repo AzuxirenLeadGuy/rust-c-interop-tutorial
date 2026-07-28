@@ -122,7 +122,7 @@ Thus, this command creates the intermediate build directory `cmake-build`. Next 
 cmake --build ./cmake-build --config RELEASE
 ```
 
-Finally, we can install it using the `cmake --install` command.<a href='https://rnsaffn.com/poison2?id=cmake-install-is-a-bad-name'   class='expert-blogs' >No, we are not installing in your system</a> For this example, we can install the library in a custom folder using --prefix as shown.
+Finally, we can install it using the `cmake --install` command.<a href='https://rnsaffn.com/poison2?id=cmake-install-is-a-bad-name' class='expert-blogs' >No, we are not installing in your system</a> For this example, we can install the library in a custom folder using --prefix as shown.
 
 ```
 cmake --install ./cmake-build --config RELEASE --prefix ./out
