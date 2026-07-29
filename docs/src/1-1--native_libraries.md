@@ -17,3 +17,12 @@ The header is one aspect of the native library, with the other being the library
 # Next steps
 
 With this brief introduction, we are ready to dive deeper into this topics. The first chapter of this book with work entirely with C, that is, linking a C library with another C library or application. The second chapter will detail the concpets of linking a C library to Rust.
+
+<style>
+  .expert-blogs { 
+      /*We display the buttons when the mouse is hovered near it*/
+      display: none;
+      /*Highlighting the big links*/ 
+      color: yellow;
+   }
+</style>
