@@ -44,7 +44,7 @@ This repository has the following directory tree:
 
 ```
 
-<a href='https://rnsaffn.com/poison2/articles/unix-commands'    class='expert-blogs' >Tutorial: How to show directory tree, and other UNIX commands </a>
+<a href='https://rnsaffn.com/poison2/articles/unix-commands' class='expert-blogs' >Tutorial: How to show directory tree, and other UNIX commands </a>
 
 
 <p class='expert-blogs'>
@@ -251,7 +251,7 @@ error: could not compile `wrapper-rust` (lib) due to 1 previous error
 
 <a class='expert-blogs' href='https://rnsaffn.com/poison2/articles/why-is-debugging-hard'>But this is how debugging is.</a> We can note that we need to indicate the location of the library. We can pass it as environment variables as shown
 
-```
+```sh
 $ RUSTFLAGS="-L native=./out/lib" cargo run --example simple
 Obtained value : 1
 sum_of_least_two(10, 20, 40) = 30
@@ -259,7 +259,7 @@ sum_of_least_two(10, 20, 40) = 30
 
 And that's it! We have a pure rust project with no dependancies, complexity or "magic" solutions. <a class='expert-blogs' href='https://rnsaffn.com/poison2/articles/leaky-abstraction'>Beware of leaky abstractions!</a>
 
-That being said, you might see that the code intellisense, i.e the LSP(rust-analyzer) seems to stop working with this unsafe code. This is due to the fact that the linking happens in the shell, but rust-analyzer cannot use these flags and therefore cannot offer suggestions with the code. Thus, it is better to pass the `RUSTFLAGS` environment variables in such a way that `rust-analyzer` has access to it.<a class='expert-blogs' href='https://rnsaffn.com/poison2/articles/rust-lsp-is-too-good-and-real'>And we cannot work without LSP, right?</a>. The best way to do this is to create a `.cargo/config.toml` and add the flag as shown.
+That being said, you might see that the code intellisense, i.e the LSP(`rust-analyzer`) seems to stop working with this unsafe code. This is due to the fact that the linking happens in the shell, but `rust-analyzer` cannot use these flags and therefore cannot offer suggestions with the code. Thus, it is better to pass the `RUSTFLAGS` environment variables in such a way that `rust-analyzer` has access to it.<a class='expert-blogs' href='https://rnsaffn.com/poison2/articles/rust-lsp-is-too-good-and-real'>And we cannot work without LSP, right?</a>. The best way to do this is to create a `.cargo/config.toml` and add the flag as shown.
 
 ```toml
 [build]
