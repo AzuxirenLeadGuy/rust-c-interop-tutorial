@@ -135,6 +135,7 @@ gcc -c veclib.c # Create veclib.o object file
 gcc program.c veclib.o -o testveclib && ./testveclib && echo "All OK"
 ```
 
+The final command runs successfully, which leads the `&&` operator to be evaluated as true, and the next command `echo "All Ok"` runs as expected, displaying the output "All OK" on the console.
 
 It is important to appreciate this approach. The gcc compiler completes its syntax checks and semantic analysis to create an intermediate file. When the compiler is used together with the object file and the `program.c` file, the syntax checks and semantic analysis is done for the `program.c` and not for the `veclib.c` file, since that step has already been accomplished in the creation of the object file.
 
